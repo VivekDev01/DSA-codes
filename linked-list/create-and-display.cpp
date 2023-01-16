@@ -5,7 +5,7 @@ class node{
     public:
     int data;
     node * next;
-    
+
     void create(int A[], int n);
     void display();
     void recursiveDisplay(node * p);
@@ -228,7 +228,11 @@ void node::InsertINTOsorted(int key){
         first = t;
     }
     else{ 
-        while((p->data < key) && p){
+        // while((p->data < key) && p){ 
+        /* above line is not able to provide right result. BUT WHY ???? 
+        BECAUSE first of all you have to check primary condition such that p exists or not,
+        if p is NULL then there is no meaning of checking p's data */
+        while(p && (p->data < key)){
             q=p;
             p=p->next;
         }
@@ -275,5 +279,5 @@ int main(){
     first->InsertINTOsorted(13);
     first->InsertINTOsorted(16);
     first->InsertINTOsorted(20);
-    first->display();
+    first->display(); 
 }
