@@ -387,6 +387,7 @@ int main(){
 
     // first->reverseElements();
     // first->reverseLinks();
-    first->Rreverse(NULL, first);
+    // first->Rreverse(NULL, first);
+    
     first->display(); 
 }
