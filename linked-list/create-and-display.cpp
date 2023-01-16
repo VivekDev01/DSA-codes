@@ -23,6 +23,12 @@ class node{
     void Insert(int pos, int key);
     void InsertLast(int key);
     void InsertINTOsorted(int key);
+    int Delete(int pos);
+    bool isSorted();
+    void removeDuplicates();
+    void reverseElements();
+    void reverseLinks();
+    void Rreverse(node *p, node *q);
 }*first=NULL;
 
 // node * first=NULL;
@@ -245,11 +251,104 @@ void node::InsertINTOsorted(int key){
             q->next= t;
         }
     }
-    
+}
+
+int node::Delete(int pos){
+    node * p, *q;
+    int x=0;
+    p=first;
+    q=NULL;
+    if(pos<1 || pos>count()){
+        return -1;
+    }
+    if(pos==1){
+        first= first->next;
+        x= p->data;
+        delete p;
+    }
+    else{
+        for(int i=0;i<pos-1 && p;i++){
+            q=p;
+            p=p->next;
+        }
+        if(p){
+            q->next=p->next;
+            x= p->data;
+            delete p;
+        } 
+    }
+    return x;
+}
+
+bool node::isSorted(){
+    node *p=first;
+    int x= INT_MIN;
+    while(p!=NULL){
+        if(p->data < x){
+            return false;
+        }
+        x= p->data;
+        p= p->next;
+    }
+    return true;
+}
+
+void node::removeDuplicates(){
+    node *p= first;
+    node *q= p->next;
+    while(q!=NULL){
+        if(p->data != q->data){
+            p=q;
+            q=q->next;
+        }
+        else{
+            p->next=q->next;
+            delete q;
+            q=p->next;
+        }
+    }
+}
+
+void node::reverseElements(){
+    node * p=first;
+    int A[5],i=0;
+    while(p!=NULL){
+        A[i]=p->data;
+        p=p->next;
+        i++;
+    }
+    p=first;
+    i--;
+    while(p!=NULL){
+        p->data=A[i];
+        p=p->next;
+        i--;
+    }
+}
+
+void node::reverseLinks(){
+    node *p=first, *q=NULL, *r=NULL;
+    while(p!=NULL){
+        r=q;
+        q=p;
+        p=p->next;
+        q->next=r;
+    }
+    first=q;
+}
+
+void node::Rreverse(node *q, node *p){
+    if(p!=NULL){
+        Rreverse(p, p->next);
+        p->next=q;
+    }
+    else{
+        first = q;
+    }
 }
 
 int main(){
-    int A[5]={3, 7, 10, 15, 17};
+    int A[5]={3, 8, 10, 15, 19};
     first->create(A,5);
     first->display();
     cout<<endl<<endl;
@@ -274,10 +373,20 @@ int main(){
 
     // first->InsertLast(100);
 
-    first->InsertINTOsorted(2);
-    first->InsertINTOsorted(8);
-    first->InsertINTOsorted(13);
-    first->InsertINTOsorted(16);
-    first->InsertINTOsorted(20);
+    // first->InsertINTOsorted(2);
+    // first->InsertINTOsorted(8);
+    // first->InsertINTOsorted(13);
+    // first->InsertINTOsorted(16);
+    // first->InsertINTOsorted(20);
+
+    // cout<<first->Delete(9)<<endl<<endl;
+
+    // cout<<first->isSorted()<<endl;
+
+    // first->removeDuplicates();
+
+    // first->reverseElements();
+    // first->reverseLinks();
+    first->Rreverse(NULL, first);
     first->display(); 
 }
