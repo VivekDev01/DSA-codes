@@ -6,8 +6,6 @@ class node{
     int data;
     node * next;
 
-    void create(int A[], int n);
-    void display();
     void recursiveDisplay(node * p);
     int count();
     int Rcount(node * p);
@@ -33,12 +31,13 @@ class node{
 
 // node * first=NULL;
 
-void node::create(int A[], int n){
+node * create(int A[], int n){
     node *t, *last;
-    first= new node;
-    first->data=A[0];
-    first->next=NULL;
-    last=first;
+    node *p;
+    p= new node;
+    p->data=A[0];
+    p->next=NULL;
+    last=p;
     
     int i;
     for(i=1; i<n;i++){
@@ -48,13 +47,14 @@ void node::create(int A[], int n){
         last->next=t;
         last=t;
     }
+    return p;
 }
 
-void node::display(){
+void display(node *p){
     node * t;
-    t=first;
+    t=p;
     while(t!=NULL){
-        cout<<t->data<<endl;
+        cout<<t->data<<" ";
         t=t->next;
     }
 }
@@ -347,11 +347,59 @@ void node::Rreverse(node *q, node *p){
     }
 }
 
+node * concatenate(node *p1, node *p2){
+    node *p=p1;
+    while(p->next!=NULL){
+        p=p->next;
+    }
+    p->next=p2;
+    p2=NULL;
+    return p1;
+}
+
+node * merge(node *p1, node *p2){
+    node *third, *last;
+    if(p1->data < p2->data){
+        third=p1;
+        last=p1;
+        p1=p1->next;
+        last->next=NULL;
+    }
+    else{
+        third=p2;
+        last=p2;
+        p2=p2->next;
+        last->next=NULL;
+    }
+
+    while(p1!=NULL && p2!=NULL){
+        if(p1->data < p2->data){
+            last->next=p1;
+            p1=p1->next;
+            last=last->next;
+            last->next=NULL;
+        }
+        else{
+            last->next=p2;
+            p2=p2->next;
+            last=last->next;
+            last->next=NULL;
+        }
+    }
+    if(p1!=NULL){
+        last->next=p1;
+    }
+    else{
+        last->next=p2;
+    }
+    return third;
+}
+
 int main(){
     int A[5]={3, 8, 10, 15, 19};
-    first->create(A,5);
-    first->display();
-    cout<<endl<<endl;
+    first=create(A,5);
+    // display(first);
+    // cout<<endl<<endl;
     // first->recursiveDisplay(first)<<endl;
 
     // cout<<first->count()<<endl;
@@ -388,6 +436,18 @@ int main(){
     // first->reverseElements();
     // first->reverseLinks();
     // first->Rreverse(NULL, first);
-    
-    first->display(); 
+
+    node *second;
+    int B[4]={2,7,13,22};
+    second= create(B,4);
+    display(first);
+    cout<<endl;
+    display(second); 
+    cout<<endl;
+
+    // node *c=concatenate(first,second);
+    // display(c);
+
+    node * merged= merge(first, second);
+    display(merged);
 }
