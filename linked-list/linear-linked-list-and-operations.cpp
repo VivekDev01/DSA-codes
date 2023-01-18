@@ -395,6 +395,24 @@ node * merge(node *p1, node *p2){
     return third;
 }
 
+bool isLoop(node *f){
+    node *p, *q;
+    p=q=f;
+    do{
+        p=p->next;
+        q=q->next;
+        q= q!=NULL?q->next:NULL;
+    }
+    while(p && q && p!=q);
+    if(p==q){
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+
 int main(){
     int A[5]={3, 8, 10, 15, 19};
     first=create(A,5);
@@ -448,6 +466,11 @@ int main(){
     // node *c=concatenate(first,second);
     // display(c);
 
-    node * merged= merge(first, second);
-    display(merged);
+    // node * merged= merge(first, second);
+    // display(merged);
+
+    node *t1=second->next;
+    node *t2=second->next->next->next;
+    t2->next=t1;
+    cout<<isLoop(first)<<endl;
 }
